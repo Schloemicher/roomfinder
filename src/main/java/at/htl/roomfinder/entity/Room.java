@@ -1,9 +1,8 @@
-package at.htl.schloemicher.roomfinder.entity;
+package at.htl.roomfinder.entity;
 
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.Set;
 
@@ -24,5 +23,9 @@ public class Room{
 
     public Room(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

@@ -1,8 +1,6 @@
-package at.htl.schloemicher.roomfinder;
+package at.htl.roomfinder;
 
-import at.htl.schloemicher.roomfinder.entity.Room;
 import org.neo4j.ogm.config.Configuration;
-import org.neo4j.ogm.metadata.MetaData;
 import org.neo4j.ogm.session.Session;
 import org.neo4j.ogm.session.SessionFactory;
 
@@ -27,9 +25,7 @@ public class Neo4jSessionFactory {
         System.out.println(configuration.getURI());
 
         sessionFactory = new SessionFactory(configuration,
-//                "Person.entity.roomfinder.schloemicher.htl.at",
-                "entity.roomfinder.schloemicher.htl.at"
-//                "roomfinder.schloemicher.htl.at"
+                "at.htl.roomfinder.entity"
         );
     }
 
