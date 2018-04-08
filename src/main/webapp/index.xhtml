@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Roomfinder</title>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/alchemyjs/0.4.2/alchemy.min.css"/>-->
+</h:head>
+<h:body>
+    <h1>Roomfinder</h1>
+
+    <!--<div class="alchemy" id="alchemy_allNodes"></div>-->
+    <!--<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/alchemyjs/0.4.2/scripts/vendor.js"></script>-->
+    <!--<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/alchemyjs/0.4.2/alchemy.min.js"></script>-->
+    <!--<script type="text/javascript">-->
+    <!--var config = {-->
+    <!--dataSource: 'rs/graph',-->
+    <!--};-->
+    <!---->
+    <!--alchemy = new Alchemy(config)-->
+    <!--</script>-->
+
+    <h:form id="form_index">
+        <h:outputText id="errorMsg" value="#{indexController.errorMessage}" style="font-size:36px;color:darkred;"/>
+
+
+        <p:panelGrid columns="2">
+            <p:fieldset legend="Room" style="margin-bottom:20px">
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Name: "/>
+                    <h:inputText value="#{indexController.curRoom.name}"/>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" actionListener="#{indexController.doSaveRoom}"
+                                         update="form_index:errorMsg"/>
+                        <p:commandButton value="Delete" actionListener="#{indexController.doDeleteRoom}"
+                                         update="form_index:errorMsg"/>
+                    </f:facet>
+                </h:panelGrid>
+            </p:fieldset>
+            <p:fieldset legend="Path" style="margin-bottom:20px">
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Start: "/>
+                    <h:inputText value="#{indexController.curPath.startRoom}"/>
+                    <h:outputLabel value="Path length: "/>
+                    <h:inputText value="#{indexController.curPath.pathLength}"/>
+                    <h:outputLabel value="End: "/>
+                    <h:inputText value="#{indexController.curPath.endRoom}"/>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" actionListener="#{indexController.doSavePath}"
+                                         update="form_index:errorMsg"/>
+                        <p:commandButton value="Delete" actionListener="#{indexController.doDeletePath}"
+                                         update="form_index:errorMsg"/>
+                    </f:facet>
+                </h:panelGrid>
+            </p:fieldset>
+        </p:panelGrid>
+    </h:form>
+</h:body>
+</html>
