@@ -1,5 +1,7 @@
 package at.htl.roomfinder.entity;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.neo4j.ogm.annotation.*;
 
 import java.util.LinkedHashSet;
@@ -13,6 +15,7 @@ public class Room {
     @GeneratedValue
     private Long id;
 
+    @JsonProperty("caption")
     String name;
 
     @Relationship(type = "NEXT")
@@ -34,6 +37,7 @@ public class Room {
         return id;
     }
 
+    @JsonIgnore
     public Set<Path> getPaths() {
         return paths;
     }
@@ -49,6 +53,11 @@ public class Room {
         if (paths == null)
             paths = new LinkedHashSet<>();
         paths.add(new Path(this, nextRoom, pathLength));
+        return this;
+    }
+
+    public Room addPath(Path p){
+        paths.add(p);
         return this;
     }
 
