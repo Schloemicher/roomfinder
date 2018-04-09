@@ -23,14 +23,12 @@ public class GraphResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response allNodes() {
-        Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
-
-        Collection<Room> rooms = session.loadAll(Room.class);
-
-        Map<String, Object> map = new LinkedHashMap<>();
-        Object o = session.query("match (n) return n", map);
-
-        return Response.serverError().build();
+        Pathfinding pathfinding = PathFinder.findAll();
+        if (pathfinding != null) {
+            return Response.ok(pathfinding).build();
+        } else {
+            return Response.ok().build();
+        }
     }
 
     @GET

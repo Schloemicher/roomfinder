@@ -15,8 +15,8 @@ public class PathDao {
     public boolean persist(Path newPath) {
         Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
         try (Transaction tx = session.beginTransaction()) {
-            newPath.getStartRoom().addPath(newPath);
-            session.save(newPath.getStartRoom());
+//            newPath.getStartRoom().addPath(newPath);
+            session.save(newPath);
 
             tx.commit();
             return true;

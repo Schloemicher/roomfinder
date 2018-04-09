@@ -9,14 +9,15 @@
 <h:head>
     <title>Roomfinder</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/alchemyjs/0.4.2/alchemy.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/alchemyjs/0.4.2/styles/vendor.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/alchemyjs/0.4.2/styles/vendor.css"/>
     <style type="text/css">
         .alchemy svg {
             background: azure !important;
         }
+
         /*.alchemy{*/
-            /*width: 100%;*/
-            /*height: 100%;*/
+        /*width: 100%;*/
+        /*height: 100%;*/
         /*}*/
     </style>
 </h:head>
@@ -32,19 +33,45 @@
     <script type="application/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/alchemyjs/0.4.2/alchemy.min.js"></script>
     <script type="text/javascript">
+
+        var fromId = 169;
+        var toId = 171;
+
+        var config_pathfinding = {
+            dataSource: 'rs/graph/shortest/'+fromId+'/'+toId,
+            nodeCaption: "caption",
+            divSelector: "#alchemy_pathfinding"
+        };
+        var alchemy_pathfinding = new Alchemy(config_pathfinding);
+
         var config = {
-                dataSource: 'rs/graph/shortest/169/171',
-            caption: function(node) {
-                return "" + node.caption;
-            },
-            };
+            dataSource: 'rs/graph',
+            nodeCaption: "caption",
+            divSelector: "#alchemy"
+        };
         alchemy = new Alchemy(config);
 
         console.log(document.getElementById('form_index:shortestPathFromId').value);
         console.log(document.getElementById('form_index:shortestPathToId').value);
+
         function checkJS() {
             console.log(document.getElementById('form_index:shortestPathFromId').value);
             console.log(document.getElementById('form_index:shortestPathToId').value);
+        }
+
+        function updateAllNodes() {
+            setTimeout(function(){ new Alchemy(config); },1000);
+        }
+
+
+        function updateNodeFinding() {
+            fromId = document.getElementById('form_index:shortestPathFromId').value;
+            toId = document.getElementById('form_index:shortestPathToId').value;
+            setTimeout(function(){ alchemy_pathfinding = new Alchemy({
+                dataSource: 'rs/graph/shortest/'+fromId+'/'+toId,
+                nodeCaption: "caption",
+                divSelector: "#alchemy_pathfinding"
+            }); },1000);
         }
     </script>
 
@@ -60,47 +87,51 @@
 
                     <f:facet name="footer">
                         <p:commandButton value="Save" actionListener="#{indexController.doSaveRoom}"
-                                         update="form_index:errorMsg"/>
+                                         update="form_index:errorMsg" onclick="updateAllNodes()"/>
                         <p:commandButton value="Delete" actionListener="#{indexController.doDeleteRoom}"
-                                         update="form_index:errorMsg"/>
+                                         update="form_index:errorMsg" onclick="updateAllNodes()"/>
                     </f:facet>
                 </h:panelGrid>
             </p:fieldset>
             <p:fieldset legend="Path" style="margin-bottom:20px">
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Start: "/>
-                    <h:inputText value="#{indexController.curPath.startRoom}"/>
+                    <h:inputText value="#{indexController.curPath.startRoom.name}"/>
                     <h:outputLabel value="Path length: "/>
                     <h:inputText value="#{indexController.curPath.pathLength}"/>
                     <h:outputLabel value="End: "/>
-                    <h:inputText value="#{indexController.curPath.endRoom}"/>
+                    <h:inputText value="#{indexController.curPath.endRoom.name}"/>
 
                     <f:facet name="footer">
                         <p:commandButton value="Save" actionListener="#{indexController.doSavePath}"
-                                         update="form_index:errorMsg"/>
-                        <p:commandButton value="Delete" actionListener="#{indexController.doDeletePath}"
-                                         update="form_index:errorMsg"/>
+                                         update="form_index:errorMsg" onclick="updateAllNodes()"/>
                     </f:facet>
                 </h:panelGrid>
             </p:fieldset>
             <p:fieldset legend="Shortest path" style="margin-bottom:20px">
                 <h:panelGrid columns="2">
+                    <h:inputHidden id="shortestPathFromId" value="#{indexController.shortestPathFromId}"/>
+                    <h:inputHidden id="shortestPathToId" value="#{indexController.shortestPathToId}"/>
+
                     <h:outputLabel value="Start: "/>
-                    <h:outputText id="shortestPathFromId" value="#{indexController.shortestPathFromId}" />
                     <h:inputText value="#{indexController.shortestPathFrom}"/>
 
                     <h:outputLabel value="End: "/>
-                    <h:outputText id="shortestPathToId" value="#{indexController.shortestPathToId}" />
                     <h:inputText value="#{indexController.shortestPathTo}"/>
 
                     <f:facet name="footer">
                         <p:commandButton value="Search Path" actionListener="#{indexController.doFindShortestPath}"
-                                         onclick="checkJS()"
+                                         onclick="updateNodeFinding()"
                                          update="form_index:errorMsg form_index:shortestPathFromId form_index:shortestPathToId"/>
                     </f:facet>
                 </h:panelGrid>
             </p:fieldset>
         </p:panelGrid>
     </h:form>
+
+    <br/>
+    <div style="width: 1200px;height: 600px">
+        <div class="alchemy" id="alchemy_pathfinding"></div>
+    </div>
 </h:body>
 </html>

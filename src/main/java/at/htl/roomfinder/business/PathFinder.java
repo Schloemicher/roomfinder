@@ -3,13 +3,19 @@ package at.htl.roomfinder.business;
 import at.htl.roomfinder.dao.PathDao;
 import at.htl.roomfinder.dao.RoomDao;
 import at.htl.roomfinder.entity.GraphJsonPath;
+import at.htl.roomfinder.entity.Path;
 import at.htl.roomfinder.entity.Pathfinding;
+import at.htl.roomfinder.entity.Room;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class PathFinder {
 
@@ -54,13 +60,13 @@ public class PathFinder {
             Pathfinding pathfinding = new Pathfinding();
             for (int i = 0; i < nodes.length(); i++) {
                 String url = (String) nodes.get(i);
-                long id = Long.parseLong(url.substring(url.lastIndexOf('/')+1));
+                long id = Long.parseLong(url.substring(url.lastIndexOf('/') + 1));
                 pathfinding.getNodes().add(roomDao.findById(id));
             }
 
             for (int i = 0; i < relationships.length(); i++) {
                 String url = (String) relationships.get(i);
-                long id = Long.parseLong(url.substring(url.lastIndexOf('/')+1));
+                long id = Long.parseLong(url.substring(url.lastIndexOf('/') + 1));
                 pathfinding.getEdges().add(new GraphJsonPath(pathDao.findById(id)));
             }
             return pathfinding;
@@ -68,5 +74,17 @@ public class PathFinder {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static Pathfinding findAll() {
+        List<Room> rooms = new ArrayList<>(Neo4jSessionFactory.getInstance().getNeo4jSession().loadAll(Room.class));
+        List<Path> paths = new ArrayList<>(Neo4jSessionFactory.getInstance().getNeo4jSession().loadAll(Path.class));
+        Pathfinding pathfinding = new Pathfinding();
+        pathfinding.getNodes().addAll(rooms);
+
+        for (Path path : paths) {
+            pathfinding.getEdges().add(new GraphJsonPath(path));
+        }
+        return pathfinding;
     }
 }

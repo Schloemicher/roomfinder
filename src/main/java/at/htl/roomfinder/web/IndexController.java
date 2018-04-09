@@ -33,6 +33,11 @@ public class IndexController {
     public void init() {
         this.curRoom = new Room();
         this.curPath = new Path();
+        this.curPath.setStartRoom(new Room());
+        this.curPath.setEndRoom(new Room());
+
+        shortestPathFrom = "E01";
+        shortestPathTo = "E03";
     }
 
     //ROOM management
@@ -70,13 +75,13 @@ public class IndexController {
         }
     }
 
-    public void doDeletePath() {
-        if (curPath != null) {
+//    public void doDeletePath() {
+//        if (curPath != null) {
 //            roomDao.delete(curRoom);
-        } else {
-            errorMessage = "Couldn't delete path!";
-        }
-    }
+//        } else {
+//            errorMessage = "Couldn't delete path!";
+//        }
+//    }
 
     public void doFindShortestPath(){
         shortestPathFromId = roomDao.findByName(shortestPathFrom).getId();

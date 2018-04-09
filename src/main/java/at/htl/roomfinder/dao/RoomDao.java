@@ -10,6 +10,7 @@ import org.neo4j.ogm.transaction.Transaction;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -48,13 +49,13 @@ public class RoomDao {
      * @param name
      * @return
      */
-    public Room findByName(@NotNull @NotBlank String name){
+    public Room findByName(String name){
         Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
         try (Transaction tx = session.beginTransaction()) {
-            Collection<Room> rooms = session.loadAll(
+            ArrayList<Room> rooms = new ArrayList<>(session.loadAll(
                     Room.class,
-                    new Filter("name", ComparisonOperator.EQUALS, name), 1);
-            return rooms.iterator().next();
+                    new Filter("name", ComparisonOperator.EQUALS, name), 1));
+            return rooms.get(0);
         } catch (Exception e) {
             System.out.println(e);
         }
