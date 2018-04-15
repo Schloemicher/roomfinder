@@ -13,6 +13,7 @@ public class Initbean {
 
     @PostConstruct
     public void init(){
-
+        GraphController.purgeDatabase();
+        GraphController.initSchema();
     }
 }

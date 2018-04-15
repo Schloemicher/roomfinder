@@ -75,14 +75,6 @@ public class IndexController {
         }
     }
 
-//    public void doDeletePath() {
-//        if (curPath != null) {
-//            roomDao.delete(curRoom);
-//        } else {
-//            errorMessage = "Couldn't delete path!";
-//        }
-//    }
-
     public void doFindShortestPath(){
         shortestPathFromId = roomDao.findByName(shortestPathFrom).getId();
         shortestPathToId = roomDao.findByName(shortestPathTo).getId();

@@ -12,8 +12,8 @@ public class Roomfinder {
 
 
     public static void main(String[] args) {
-//        GraphController.purgeDatabase();
-//        GraphController.initSchema();
+        GraphController.purgeDatabase();
+        GraphController.initSchema();
 
         PathFinder.findPath(169,171);
     }

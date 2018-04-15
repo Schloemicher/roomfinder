@@ -65,9 +65,10 @@
 
 
         function updateNodeFinding() {
-            fromId = document.getElementById('form_index:shortestPathFromId').value;
-            toId = document.getElementById('form_index:shortestPathToId').value;
-            setTimeout(function(){ alchemy_pathfinding = new Alchemy({
+            setTimeout(function(){
+                fromId = document.getElementById('form_index:shortestPathFromId').value;
+                toId = document.getElementById('form_index:shortestPathToId').value;
+                alchemy_pathfinding = new Alchemy({
                 dataSource: 'rs/graph/shortest/'+fromId+'/'+toId,
                 nodeCaption: "caption",
                 divSelector: "#alchemy_pathfinding"

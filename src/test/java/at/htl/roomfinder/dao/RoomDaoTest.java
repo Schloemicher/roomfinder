@@ -15,14 +15,6 @@ public class RoomDaoTest {
     }
 
     @org.junit.Test
-    public void persist() {
-    }
-
-    @org.junit.Test
-    public void delete() {
-    }
-
-    @org.junit.Test
     public void findByName() {
         assertThat("Didn't find E01", dao.findByName("E01").getName(), is("E01"));
     }
