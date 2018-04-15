@@ -18,7 +18,7 @@ public class Neo4jSessionFactory {
 
         configuration = new Configuration.Builder()
                 .uri("bolt://localhost:7687")
-                .credentials("roomfinder", "1234")  //credentials
+                .credentials("neo4j", "roomfinder")  //credentials
                 .build();
 
         System.out.println(configuration.getURI());
